@@ -18,5 +18,5 @@ function shortest_paths(g::G)
     sort!(path_lens, rev = false)
     freq = [count(i -> (i == l), paths) for l in path_lens] 
     
-    return path_lens, freq./(1.0*length(paths))
+    return path_lens, freq./(1.0*length(paths)), paths
 end

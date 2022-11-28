@@ -1,7 +1,7 @@
 include("graph_defs.jl")
 
 function is_edge(g::G, vert1::Int, vert2::Int)
-    return vert2 in g.edges(vert1)
+    return vert2 in g.edges[vert1]
 end
 
 function node_degree(g::G, vertex::Int)
@@ -36,16 +36,12 @@ function clustering(g::G, vertex::Int)
     end
 end
 
-function average_clustering(g::G)
-    return sum(clustering[g, vertex] for vertex in g.vertices)/g.n
-end
-
-function clustering_cdf(g::G, np::Int = 1000)
-    clustering = [clustering(g, vertex) for vertex in vertices]
-    max_clustering = maximum(clustering)
+function clustering_cdf(g::G, np::Int = 10000)
+    cluster_coeffs= [clustering(g, vertex) for vertex in g.vertices]
+    max_clustering = maximum(cluster_coeffs)
     ε = max_clustering/np
     x = ε:ε:max_clustering
-    cdf = [count(c -> (c < i), clustering) for i in x]
-    return (x, cdf)
+    cdf = [count(c -> (c < i), cluster_coeffs) for i in x]
+    return (x, cdf./g.n, cluster_coeffs)
 end
 
