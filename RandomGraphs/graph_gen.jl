@@ -25,7 +25,7 @@ function rand_edge(N::Int, no_self_loops::Bool = true)
     end
 end
 
-function erdos_renyi(N::Int, L::Int)
+function m_erdos_renyi(N::Int, L::Int)
     g = G_empty(N)
     for i in 1:L
         did_make_edge = false
@@ -57,7 +57,7 @@ function erdos_renyi_gilbert(N::Int, p::Float64)
     return g
 end
 
-function watts_strogatz(N::Int, k::Int, β::Float64)
+function m_watts_strogatz(N::Int, k::Int, β::Float64)
     g = G_empty(N)
     k_left, k_right = (k % 2 == 0) ? (trunc(Int, k/2), trunc(Int, k/2)) : (trunc(Int, (k-1)/2), trunc(Int, (k+1)/2))
     for vertex in g.vertices
